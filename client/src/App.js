@@ -19,7 +19,7 @@ function App() {
     gettasks();
   }, []);
   const fetchtasks = async () => {
-    const res = await fetch(`http://localhost:5000/tasks`, {
+    const res = await fetch(`/tasks`, {
       headers: { auth_token: localStorage.getItem("auth_token") },
     });
     const data = await res.json();
@@ -27,13 +27,13 @@ function App() {
   };
 
   const fetchtask = async (id) => {
-    const res = await fetch(`http://localhost:5000/tasks/${id}`);
+    const res = await fetch(`/tasks/${id}`);
     const data = await res.json();
     return data;
   };
 
   const addtask = async (task) => {
-    const res = await fetch(`http://localhost:5000/tasks`, {
+    const res = await fetch(`/tasks`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -44,10 +44,9 @@ function App() {
     const data = await res.json();
     settasks([...tasks, data]);
   };
-  const updatetask = async (id) => {};
   const deleteTask = async (id) => {
     settasks(tasks.filter((task) => task._id !== id));
-    await fetch(`http://localhost:5000/tasks/${id}`, {
+    await fetch(`/tasks/${id}`, {
       method: "DELETE",
     });
   };
@@ -55,7 +54,7 @@ function App() {
   const toggleremainder = async (id) => {
     const tasktoggle = await fetchtask(id);
     const updatedtask = { ...tasktoggle, reminder: !tasktoggle.reminder };
-    const res = await fetch(`http://localhost:5000/tasks/${id}`, {
+    const res = await fetch(`/tasks/${id}`, {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(updatedtask),
@@ -68,7 +67,7 @@ function App() {
     );
   };
   const loginfun = async (cred) => {
-    const res = await fetch(`http://localhost:5000/login/signin`, {
+    const res = await fetch(`/login/signin`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(cred),
@@ -77,7 +76,7 @@ function App() {
     return data;
   };
   const signupfun = async (cred) => {
-    const res = await fetch(`http://localhost:5000/login/signup`, {
+    const res = await fetch(`/login/signup`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(cred),
